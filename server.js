@@ -47,12 +47,30 @@ app.listen(app.get('port'), () => {
     console.log('server running on port', app.get('port'))
 })
 
+app.post('/upload',upload.single('myFile'), (req,res)=>{
+    res.send({data:'OK'})
+})
+
 app.get('/clases', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
             return res.send(err)
         }
         conn.query('SELECT * FROM clase', (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.get('/clases/:nombre', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('SELECT id FROM clase WHERE clase.nombre=?', [req.params.nombre],(err,rows)=>{
             if(err){
                 return res.send(err)
             }
@@ -103,6 +121,151 @@ app.get('/herencia', (req, res) => {
     })
 })
 
+app.post('/clases', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO clase set ?',[req.body], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.post('/atributos', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO atributos set ?',[req.body], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.post('/funciones', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO funciones set ?',[req.body], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.post('/herencia', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO herencia set ?',[req.body], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.delete('/clase/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('DELETE from clase where Id = ?',[req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.delete('/atributos/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('DELETE from atributos where id_clase = ?',[req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.delete('/funciones/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('DELETE from funciones where id_clase = ?',[req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.delete('/herencia/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('DELETE from herencia where  id_claseHijo = ?',[req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.put('/atributos/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('UPDATE atributos set ? WHERE id = ?',[req.body,req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.put('/funciones/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('UPDATE funciones set ? WHERE id = ?',[req.body,req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
 //Subir archivos
 /*app.post('/upload',upload.single('myFile'), (req,res)=>{
     res.send({data:'OK'})
