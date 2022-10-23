@@ -151,6 +151,22 @@ app.get('/usuario', (req, res)=> {
     })
 })
 
+//funciones get de proyectos
+
+app.get('/proyecto/:id', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('SELECT id FROM proyecto WHERE proyecto.id_usr=?', [req.params.id],(err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
 app.post('/clases', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
@@ -172,6 +188,22 @@ app.post('/usuario', (req, res) => {
             return res.send(err)
         }
         conn.query('INSERT INTO usuario set ?', [req.body], (err, rows) => {
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+//funcion post para tabla de proyecto
+
+app.post('/proyecto', (req, res) => {
+    req.getConnection((err, conn)=> {
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO proyecto set ?', [req.body], (err, rows) => {
             if(err){
                 return res.send(err)
             }
