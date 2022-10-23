@@ -79,6 +79,20 @@ app.get('/clases/:nombre', (req, res) => {
     })
 })
 
+app.get('/atributosHeredados/:id', (req, res) => {
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('CALL getAtributosHeredados(?);', [req.params.id],(err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
 app.get('/funciones', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
@@ -270,3 +284,5 @@ app.put('/funciones/:id',(req,res)=>{
 /*app.post('/upload',upload.single('myFile'), (req,res)=>{
     res.send({data:'OK'})
 })*/
+
+
