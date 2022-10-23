@@ -158,7 +158,22 @@ app.get('/proyecto/:id', (req, res) => {
         if(err){
             return res.send(err)
         }
-        conn.query('SELECT id FROM proyecto WHERE proyecto.id_usr=?', [req.params.id],(err,rows)=>{
+        conn.query('SELECT * FROM proyecto WHERE proyecto.id_usr=?', [req.params.id],(err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+app.get('/proyectoIndividual', (req, res) => {
+
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('SELECT * FROM proyecto WHERE id_usr = ? AND nombre = ? ', [req.query.n1,req.query.n2],(err,rows)=>{
             if(err){
                 return res.send(err)
             }
