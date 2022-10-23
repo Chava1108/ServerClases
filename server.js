@@ -158,7 +158,7 @@ app.get('/proyecto/:id', (req, res) => {
         if(err){
             return res.send(err)
         }
-        conn.query('SELECT id FROM proyecto WHERE proyecto.id_usr=?', [req.params.id],(err,rows)=>{
+        conn.query('SELECT * FROM proyecto WHERE proyecto.id_usr=?', [req.params.id],(err,rows)=>{
             if(err){
                 return res.send(err)
             }
