@@ -135,12 +135,43 @@ app.get('/herencia', (req, res) => {
     })
 })
 
+//funciones get de los usuarios
+
+app.get('/usuario', (req, res)=> {
+    req.getConnection((err, conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        conn.query('SELECT * FROM usuario', (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
 app.post('/clases', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
             return res.send(err)
         }
         conn.query('INSERT INTO clase set ?',[req.body], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
+//funcion post para la tabla de usuario
+app.post('/usuario', (req, res) => {
+    req.getConnection((err, conn)=> {
+        if(err){
+            return res.send(err)
+        }
+        conn.query('INSERT INTO usuario set ?', [req.body], (err, rows) => {
             if(err){
                 return res.send(err)
             }
