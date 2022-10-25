@@ -51,12 +51,12 @@ app.post('/upload',upload.single('myFile'), (req,res)=>{
     res.send({data:'OK'})
 })
 
-app.get('/clases', (req, res) => {
+app.get('/clasesProyectId/:id', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
             return res.send(err)
         }
-        conn.query('SELECT * FROM clase', (err,rows)=>{
+        conn.query('SELECT * FROM clase WHERE clase.id_proyecto=?', [req.params.id],(err,rows)=>{
             if(err){
                 return res.send(err)
             }
