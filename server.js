@@ -121,12 +121,12 @@ app.get('/atributos', (req, res) => {
     })
 })
 
-app.get('/herencia', (req, res) => {
+app.get('/herencia/:id', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
             return res.send(err)
         }
-        conn.query('SELECT * FROM herenciaf', (err,rows)=>{
+        conn.query('SELECT * FROM herenciaf where id_proyecto=?',[req.params.id], (err,rows)=>{
             if(err){
                 return res.send(err)
             }
