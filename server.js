@@ -65,12 +65,12 @@ app.get('/clasesProyectId/:id', (req, res) => {
     })
 })
 
-app.get('/clases/:nombre', (req, res) => {
+app.get('/clasesId', (req, res) => {
     req.getConnection((err,conn)=>{
         if(err){
             return res.send(err)
         }
-        conn.query('SELECT id FROM clase WHERE clase.nombre=?', [req.params.nombre],(err,rows)=>{
+        conn.query('SELECT id FROM clase WHERE clase.nombre=? AND clase.id_proyecto = ?', [req.query.n2,req.query.n1],(err,rows)=>{
             if(err){
                 return res.send(err)
             }
