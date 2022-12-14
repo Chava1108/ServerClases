@@ -329,6 +329,21 @@ app.delete('/herencia/:id',(req,res)=>{
     })
 })
 
+app.delete('/herenciaP/:id',(req,res)=>{
+    req.getConnection((err,conn)=>{
+        if(err){
+            return res.send(err)
+        }
+        console.log(req.body)
+        conn.query('DELETE from herencia where  id_clasePadre = ?',[req.params.id], (err,rows)=>{
+            if(err){
+                return res.send(err)
+            }
+            res.json(rows)
+        })
+    })
+})
+
 app.put('/atributos/:id',(req,res)=>{
     req.getConnection((err,conn)=>{
         if(err){
